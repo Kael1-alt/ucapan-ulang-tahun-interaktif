@@ -67,6 +67,195 @@
             transform: scale(1.045);
         }
 
+        #introScreen {
+            isolation: isolate;
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+            padding: 2rem 1.25rem;
+            color: #183c32;
+            background:
+                radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.92), transparent 33rem),
+                linear-gradient(160deg, #f7f5e9 0%, #eee9d5 52%, #d8e3d4 100%);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        #introScreen.hidden {
+            display: none;
+        }
+        #introScreen::before,
+        #introScreen::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        #introScreen::before {
+            width: 34rem;
+            height: 34rem;
+            top: -22rem;
+            left: -11rem;
+            background: rgba(205, 169, 91, 0.16);
+        }
+        #introScreen::after {
+            width: 42rem;
+            height: 42rem;
+            right: -21rem;
+            bottom: -30rem;
+            background: rgba(54, 111, 83, 0.14);
+        }
+        #introScreen.intro-exit {
+            opacity: 0;
+            transform: scale(1.035);
+            pointer-events: none;
+        }
+        .intro-content {
+            width: min(100%, 58rem);
+            text-align: center;
+            animation: introRise 1s both;
+        }
+        .intro-seal {
+            width: 4.4rem;
+            height: 4.4rem;
+            margin: 0 auto 0.75rem;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(24, 60, 50, 0.2);
+            border-radius: 50%;
+            color: #fffdf4;
+            background: linear-gradient(145deg, #285b45, #123d32);
+            box-shadow: 0 7px 22px rgba(24, 60, 50, 0.2), inset 0 0 0 4px rgba(239, 211, 139, 0.5);
+            font-family: Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-indent: 0.12em;
+        }
+        .intro-kicker {
+            color: #8a6b2e;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+        }
+        .intro-title {
+            margin: 0.65rem 0 0;
+            color: #173d32;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(2.3rem, 7vw, 4.5rem);
+            font-weight: 500;
+            letter-spacing: -0.055em;
+            line-height: 1.04;
+        }
+        .intro-title span {
+            display: block;
+            color: #9b7934;
+            font-size: 0.48em;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0;
+            margin-top: 0.48rem;
+        }
+        .intro-subtitle {
+            max-width: 34rem;
+            margin: 1rem auto 0;
+            color: #586b5f;
+            font-size: clamp(0.85rem, 2.4vw, 1rem);
+            line-height: 1.8;
+        }
+        .campus-art {
+            width: min(100%, 42rem);
+            height: auto;
+            display: block;
+            margin: 0.65rem auto 0;
+            filter: drop-shadow(0 17px 19px rgba(41, 62, 43, 0.12));
+            animation: campusFloat 6s ease-in-out infinite;
+        }
+        .intro-flight-path {
+            position: absolute;
+            top: 19%;
+            left: 0;
+            width: 100%;
+            height: 28%;
+            overflow: visible;
+            pointer-events: none;
+        }
+        .intro-flight-path path {
+            fill: none;
+            stroke: rgba(154, 122, 56, 0.38);
+            stroke-dasharray: 5 11;
+            stroke-linecap: round;
+            stroke-width: 2;
+            animation: drawFlightPath 7s linear infinite;
+        }
+        .paper-plane {
+            position: absolute;
+            top: 34%;
+            left: 3%;
+            z-index: 2;
+            width: clamp(2.5rem, 6vw, 4.1rem);
+            height: auto;
+            color: #9c7835;
+            filter: drop-shadow(0 8px 6px rgba(64, 58, 39, 0.18));
+            animation: paperPlaneFlight 8s ease-in-out infinite;
+        }
+        .intro-cta {
+            min-height: 3.25rem;
+            margin-top: 0.15rem;
+            padding: 0.8rem 1.35rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 999px;
+            color: #fffdf4;
+            background: linear-gradient(120deg, #1e5842, #347555);
+            box-shadow: 0 10px 24px rgba(26, 72, 53, 0.24);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .intro-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(26, 72, 53, 0.3);
+        }
+        .intro-footnote {
+            margin: 0.9rem 0 0;
+            color: #718075;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+        }
+        @keyframes introRise {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes campusFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes drawFlightPath {
+            from { stroke-dashoffset: 180; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes paperPlaneFlight {
+            0%, 8% { transform: translate(-4vw, 10vh) rotate(-16deg); }
+            38% { transform: translate(30vw, -3vh) rotate(-2deg); }
+            67% { transform: translate(62vw, 5vh) rotate(12deg); }
+            100% { transform: translate(105vw, -16vh) rotate(-9deg); }
+        }
+        @media (max-height: 720px) {
+            #introScreen { padding-top: 1rem; padding-bottom: 1rem; }
+            .intro-seal { width: 3.4rem; height: 3.4rem; margin-bottom: 0.55rem; }
+            .intro-title { font-size: clamp(2rem, 6vh, 3.4rem); }
+            .intro-subtitle { margin-top: 0.55rem; }
+            .campus-art { width: min(100%, 35rem); max-height: 33vh; }
+            .intro-cta { min-height: 2.8rem; margin-top: 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -112,8 +301,83 @@
     <!-- Latar Belakang Partikel / Balon & Bintang -->
     <canvas id="bgCanvas"></canvas>
 
+    <!-- Layar pembuka: surat terbang dari Yogyakarta -->
+    <section id="introScreen" aria-labelledby="introTitle">
+        <svg class="intro-flight-path" viewBox="0 0 1200 320" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M -20 250 C 170 35, 300 75, 465 155 S 740 285, 900 115 S 1100 22, 1240 130"></path>
+        </svg>
+        <svg class="paper-plane" viewBox="0 0 80 64" fill="none" aria-hidden="true">
+            <path d="M5 29.5 73 4 51 59 37 37 5 29.5Z" fill="currentColor" opacity=".95"></path>
+            <path d="m37 37 36-33-23 39M37 37l3 18 11-9" stroke="#fff9e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+
+        <div class="intro-content">
+            <div class="intro-seal" aria-hidden="true">UGM</div>
+            <p class="intro-kicker">Yogyakarta · Sebuah cerita</p>
+            <h1 id="introTitle" class="intro-title">
+                Sepucuk surat
+                <span>terbang dari Yogyakarta</span>
+            </h1>
+            <p class="intro-subtitle">
+                Dari sudut kota yang hangat, sebuah pesan kecil sedang dalam perjalanan.
+                Ikuti pesawat kertasnya menuju kejutan yang disiapkan khusus untukmu.
+            </p>
+
+            <svg class="campus-art" viewBox="0 0 760 340" role="img" aria-label="Ilustrasi orisinal gedung kampus bernuansa hijau dan keemasan">
+                <defs>
+                    <linearGradient id="campusSky" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#e6eddd"></stop>
+                        <stop offset="1" stop-color="#f5efd9"></stop>
+                    </linearGradient>
+                    <linearGradient id="campusWall" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#fffdf3"></stop>
+                        <stop offset="1" stop-color="#e7ddbd"></stop>
+                    </linearGradient>
+                </defs>
+                <ellipse cx="380" cy="300" rx="316" ry="22" fill="#496b4d" opacity=".13"></ellipse>
+                <path d="M90 276c34-27 66-28 97-5 22-47 68-52 101-18 30-43 78-45 108-8 36-47 83-42 112-2 31-35 76-29 104 5 30-22 55-18 81 1v54H90v-27Z" fill="#a9c19c"></path>
+                <path d="M145 280V145h470v135H145Z" fill="url(#campusWall)" stroke="#856e43" stroke-width="3"></path>
+                <path d="M119 151h522L593 119H168l-49 32Z" fill="#b89a58" stroke="#856e43" stroke-width="3" stroke-linejoin="round"></path>
+                <path d="m202 119 178-89 178 89H202Z" fill="#285a43" stroke="#173d32" stroke-width="4" stroke-linejoin="round"></path>
+                <path d="m226 112 154-69 154 69H226Z" fill="#396f51"></path>
+                <path d="M362 77h36v34h-36z" fill="#cdb274"></path>
+                <path d="M133 151h494v13H133z" fill="#8e713b"></path>
+                <path d="M166 171h428v12H166z" fill="#d9c899"></path>
+                <path d="M169 185h16v87h-16zM575 185h16v87h-16z" fill="#c7b27c"></path>
+                <path d="M205 187h46v51h-46zM276 187h46v51h-46zM438 187h46v51h-46zM509 187h46v51h-46z" fill="#77917a" stroke="#455e4a" stroke-width="4"></path>
+                <path d="M215 197h26M286 197h26M448 197h26M519 197h26" stroke="#e9e1c8" stroke-width="3" opacity=".8"></path>
+                <path d="M348 181h64v99h-64z" fill="#806a3f"></path>
+                <path d="M356 190h48v90h-48z" fill="#304e3b"></path>
+                <path d="M365 199h30v81h-30z" fill="#d5c18a" opacity=".88"></path>
+                <circle cx="390" cy="238" r="2.5" fill="#36553d"></circle>
+                <path d="M145 272h470v10H145z" fill="#9f8046"></path>
+                <path d="M115 283h530v10H115z" fill="#496f4d"></path>
+                <g fill="#426b49">
+                    <path d="M93 270c-3-40 3-71 25-103 24 33 31 65 25 103H93Z"></path>
+                    <path d="M78 272c-24-25-32-51-24-81 29 19 43 43 45 76l-21 5Z"></path>
+                    <path d="M641 270c-3-40 3-71 25-103 24 33 31 65 25 103h-50Z"></path>
+                    <path d="M682 272c24-25 32-51 24-81-29 19-43 43-45 76l21 5Z"></path>
+                </g>
+                <path d="M111 266v28M682 266v28" stroke="#705b38" stroke-width="7" stroke-linecap="round"></path>
+                <g fill="#d3b363">
+                    <circle cx="282" cy="260" r="4"></circle>
+                    <circle cx="301" cy="260" r="4"></circle>
+                    <circle cx="459" cy="260" r="4"></circle>
+                    <circle cx="478" cy="260" r="4"></circle>
+                </g>
+            </svg>
+
+            <button id="enterBirthdayBtn" type="button" class="intro-cta">
+                <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+                <span>Buka surat ucapan</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+            <p class="intro-footnote">Sebuah kejutan ulang tahun sedang menunggumu ✨</p>
+        </div>
+    </section>
+
     <!-- 1. HALAMAN MUKA / OPENING SCREEN (KADO INTERAKTIF) -->
-    <div id="openingScreen" class="relative z-10 flex flex-col items-center justify-center text-center transition-all duration-700 px-4">
+    <div id="openingScreen" class="hidden relative z-10 flex flex-col items-center justify-center text-center transition-all duration-700 px-4">
         <div class="mb-7">
             <span class="px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-white/15 rounded-full shadow-lg backdrop-blur-md border border-white/25 tracking-wide">
                 <i class="fa-solid fa-heart text-rose-300 mr-2"></i> SEBUAH KEJUTAN KECIL UNTUKMU
@@ -469,6 +733,18 @@
         const giftBtn = document.getElementById('giftBtn');
         const openingScreen = document.getElementById('openingScreen');
         const mainContent = document.getElementById('mainContent');
+        const introScreen = document.getElementById('introScreen');
+        const enterBirthdayBtn = document.getElementById('enterBirthdayBtn');
+
+        enterBirthdayBtn.addEventListener('click', () => {
+            introScreen.classList.add('intro-exit');
+            openingScreen.classList.remove('hidden');
+            window.setTimeout(() => {
+                introScreen.classList.add('hidden');
+                introScreen.setAttribute('aria-hidden', 'true');
+                giftBtn.focus({ preventScroll: true });
+            }, 800);
+        });
 
         giftBtn.addEventListener('click', () => {
             // Efek Confetti Pembuka
