@@ -232,6 +232,55 @@
                 <i class="fa-solid fa-sparkles text-yellow-500"></i> Sebar Confetti!
             </button>
         </div>
+
+        <section aria-labelledby="commentsHeading" class="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-purple-200/80 text-left">
+            <div class="text-center mb-6">
+                <span class="inline-flex w-12 h-12 items-center justify-center rounded-2xl bg-fuchsia-100 text-fuchsia-600 text-xl mb-3">
+                    <i class="fa-solid fa-comments" aria-hidden="true"></i>
+                </span>
+                <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-fuchsia-600 font-bold mb-1">Kirim doa dan ucapan</p>
+                <h2 id="commentsHeading" class="font-cursive text-3xl sm:text-4xl text-purple-950 font-bold">Tinggalkan Jejak Manis</h2>
+                <p class="text-sm text-purple-900/65 mt-2">Tulis pesan untuk ikut merayakan hari istimewa ini 💌</p>
+            </div>
+
+            <form id="commentForm" class="bg-white/65 border border-white rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+                <div>
+                    <label for="commenterName" class="block text-sm font-semibold text-purple-950 mb-1.5">Nama panggilan</label>
+                    <input id="commenterName" name="display_name" type="text" maxlength="40" required autocomplete="nickname"
+                           placeholder="Contoh: Sahabatmu"
+                           class="w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200">
+                </div>
+                <div>
+                    <label for="commentMessage" class="block text-sm font-semibold text-purple-950 mb-1.5">Ucapan dan doa</label>
+                    <textarea id="commentMessage" name="message" rows="4" maxlength="500" required
+                              placeholder="Tulis ucapan baikmu di sini..."
+                              class="w-full resize-y rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200"></textarea>
+                    <p class="mt-1 text-right text-xs text-purple-900/50"><span id="commentCharCount">0</span>/500</p>
+                </div>
+                <div class="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    <label for="commentWebsite">Biarkan kolom ini kosong</label>
+                    <input id="commentWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p id="commentStatus" role="status" aria-live="polite" class="text-sm text-purple-800/70"></p>
+                    <button id="commentSubmit" type="submit"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-pink-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-pink-500/20 transition hover:-translate-y-0.5 hover:shadow-pink-500/35 disabled:cursor-not-allowed disabled:opacity-60">
+                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                        <span>Kirim Ucapan</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-7">
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <h3 class="font-semibold text-purple-950">Ucapan dari teman-teman</h3>
+                    <span id="commentCount" class="rounded-full bg-white/75 px-3 py-1 text-xs font-semibold text-fuchsia-700">0 ucapan</span>
+                </div>
+                <p id="commentsLoading" role="status" class="rounded-2xl bg-white/55 p-5 text-center text-sm text-purple-900/60">Memuat ucapan...</p>
+                <ul id="commentsList" class="space-y-3"></ul>
+                <p id="commentsEmpty" class="hidden rounded-2xl border border-dashed border-purple-200 bg-white/40 p-5 text-center text-sm text-purple-900/60">Belum ada ucapan. Jadilah yang pertama meninggalkan pesan! ✨</p>
+            </div>
+        </section>
     </main>
 
     <!-- 3. POPUP MODAL: PESAN RAHASIA / KOTAK HARAPAN -->
@@ -272,17 +321,150 @@
         const wishMessage = "Di hari yang istimewa ini, aku mendoakan agar hidupmu selalu dihiasi dengan senyuman, kebahagiaan tanpa batas, dan keberhasilan dalam setiap impianmu. Terima kasih telah hadir dan membawa warna indah!";
         let index = 0;
         let candleLit = true;
+        const supabaseUrl = "https://kargfptxghbkjxvgwbso.supabase.co";
+        const supabasePublishableKey = "sb_publishable_uYolujrNbZKnt1thQnSqCw_CIJuVomW";
 
         function typeWriter() {
             if (index < wishMessage.length) {
-                document.getElementById("typingText").innerHTML += wishMessage.charAt(index);
+                document.getElementById("typingText").textContent += wishMessage.charAt(index);
                 index++;
                 setTimeout(typeWriter, 35);
             }
         }
 
         /* ============================================================
-           2. ANIMASI KADO & PENYAMBUTAN
+           2. KOMENTAR PUBLIK
+           ============================================================ */
+        const commentForm = document.getElementById('commentForm');
+        const commentList = document.getElementById('commentsList');
+        const commentStatus = document.getElementById('commentStatus');
+        const commentSubmit = document.getElementById('commentSubmit');
+        const commentMessage = document.getElementById('commentMessage');
+        const commentCharCount = document.getElementById('commentCharCount');
+        const commentCount = document.getElementById('commentCount');
+
+        function commentHeaders() {
+            return {
+                apikey: supabasePublishableKey,
+                Authorization: `Bearer ${supabasePublishableKey}`
+            };
+        }
+
+        function addCommentToList(comment, prepend = false) {
+            const item = document.createElement('li');
+            item.className = 'rounded-2xl border border-white bg-white/70 p-4 shadow-sm';
+
+            const header = document.createElement('div');
+            header.className = 'flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-2';
+
+            const name = document.createElement('p');
+            name.className = 'font-semibold text-purple-950';
+            name.textContent = comment.display_name;
+
+            const date = document.createElement('time');
+            date.className = 'text-xs text-purple-900/50';
+            date.dateTime = comment.created_at;
+            date.textContent = new Intl.DateTimeFormat('id-ID', {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+            }).format(new Date(comment.created_at));
+
+            const message = document.createElement('p');
+            message.className = 'whitespace-pre-wrap break-words text-sm leading-relaxed text-purple-950/80';
+            message.textContent = comment.message;
+
+            header.append(name, date);
+            item.append(header, message);
+            if (prepend) {
+                commentList.prepend(item);
+            } else {
+                commentList.append(item);
+            }
+        }
+
+        function updateCommentCount(count) {
+            commentCount.textContent = `${count} ucapan`;
+        }
+
+        async function loadComments() {
+            const response = await fetch(
+                `${supabaseUrl}/rest/v1/birthday_comments?select=id,display_name,message,created_at&order=created_at.desc&limit=50`,
+                { headers: commentHeaders() }
+            );
+            if (!response.ok) {
+                throw new Error(`Gagal memuat komentar (${response.status}).`);
+            }
+
+            const comments = await response.json();
+            commentList.replaceChildren();
+            comments.forEach(comment => addCommentToList(comment));
+            document.getElementById('commentsLoading').classList.add('hidden');
+            document.getElementById('commentsEmpty').classList.toggle('hidden', comments.length > 0);
+            updateCommentCount(comments.length);
+        }
+
+        commentMessage.addEventListener('input', () => {
+            commentCharCount.textContent = commentMessage.value.length;
+        });
+
+        commentForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const formData = new FormData(commentForm);
+            const displayName = String(formData.get('display_name') || '').trim();
+            const message = String(formData.get('message') || '').trim();
+            const honeypot = String(formData.get('website') || '');
+
+            if (honeypot) {
+                commentStatus.textContent = 'Komentar tidak dapat dikirim.';
+                return;
+            }
+            if (displayName.length < 1 || displayName.length > 40 || message.length < 1 || message.length > 500) {
+                commentStatus.textContent = 'Nama (maksimal 40 karakter) dan ucapan (maksimal 500 karakter) wajib diisi.';
+                return;
+            }
+
+            commentSubmit.disabled = true;
+            commentStatus.textContent = 'Mengirim ucapan...';
+            try {
+                const response = await fetch(`${supabaseUrl}/rest/v1/birthday_comments`, {
+                    method: 'POST',
+                    headers: {
+                        ...commentHeaders(),
+                        'Content-Type': 'application/json',
+                        Prefer: 'return=representation'
+                    },
+                    body: JSON.stringify({ display_name: displayName, message })
+                });
+                if (!response.ok) {
+                    throw new Error(`Gagal mengirim komentar (${response.status}): ${await response.text()}`);
+                }
+
+                const [savedComment] = await response.json();
+                if (!savedComment) {
+                    throw new Error('Server tidak mengembalikan komentar yang disimpan.');
+                }
+
+                addCommentToList(savedComment, true);
+                document.getElementById('commentsEmpty').classList.add('hidden');
+                updateCommentCount(commentList.children.length);
+                commentForm.reset();
+                commentCharCount.textContent = '0';
+                commentStatus.textContent = 'Ucapanmu berhasil dikirim. Terima kasih! 💖';
+            } catch (error) {
+                console.error('Pengiriman komentar gagal:', error);
+                commentStatus.textContent = 'Ucapan belum terkirim. Periksa koneksi lalu coba lagi.';
+            } finally {
+                commentSubmit.disabled = false;
+            }
+        });
+
+        loadComments().catch(error => {
+            console.error('Pemuatan komentar gagal:', error);
+            document.getElementById('commentsLoading').textContent = 'Ucapan belum dapat dimuat. Coba muat ulang halaman.';
+        });
+
+        /* ============================================================
+           3. ANIMASI KADO & PENYAMBUTAN
            ============================================================ */
         const giftBtn = document.getElementById('giftBtn');
         const openingScreen = document.getElementById('openingScreen');
