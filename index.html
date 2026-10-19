@@ -18,7 +18,11 @@
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #a1c4fd 100%);
+            color: #30223e;
+            background:
+                radial-gradient(ellipse at 12% 12%, rgba(255, 154, 190, 0.68), transparent 34rem),
+                radial-gradient(ellipse at 88% 82%, rgba(171, 152, 255, 0.7), transparent 38rem),
+                linear-gradient(145deg, #24113d 0%, #55245e 48%, #29205c 100%);
             min-height: 100vh;
         }
 
@@ -28,30 +32,48 @@
 
         /* Glassmorphism Effect */
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(155deg, rgba(255, 250, 255, 0.96), rgba(255, 241, 248, 0.91));
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 32px 90px rgba(14, 5, 34, 0.4), 0 0 0 1px rgba(255, 215, 154, 0.2);
         }
 
         /* Floating animation for main card */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-7px); }
         }
         .animate-float {
-            animation: float 5s ease-in-out infinite;
+            animation: float 7s ease-in-out infinite;
         }
 
         /* Gift Box Styles */
         .gift-box {
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 24px 70px rgba(255, 104, 174, 0.4);
         }
         .gift-box:hover {
             transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 30px 90px rgba(255, 162, 91, 0.48);
+        }
+
+        .memory-photo {
+            transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+        .memory-photo:hover {
+            transform: scale(1.045);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         /* Candle Flame Pulse */
@@ -85,40 +107,40 @@
         }
     </style>
 </head>
-<body class="relative flex items-center justify-center min-h-screen p-4 sm:p-6 select-none">
+<body class="relative flex items-center justify-center min-h-screen p-4 sm:p-6">
 
     <!-- Latar Belakang Partikel / Balon & Bintang -->
     <canvas id="bgCanvas"></canvas>
 
     <!-- 1. HALAMAN MUKA / OPENING SCREEN (KADO INTERAKTIF) -->
-    <div id="openingScreen" class="relative z-10 flex flex-col items-center justify-center text-center transition-all duration-700">
-        <div class="mb-6 animate-bounce">
-            <span class="px-4 py-2 text-sm font-semibold text-pink-600 bg-white/80 rounded-full shadow-md backdrop-blur-md">
-                <i class="fa-solid fa-heart text-red-500 mr-1"></i> Ada kejutan spesial untukmu!
+    <div id="openingScreen" class="relative z-10 flex flex-col items-center justify-center text-center transition-all duration-700 px-4">
+        <div class="mb-7">
+            <span class="px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-white/15 rounded-full shadow-lg backdrop-blur-md border border-white/25 tracking-wide">
+                <i class="fa-solid fa-heart text-rose-300 mr-2"></i> SEBUAH KEJUTAN KECIL UNTUKMU
             </span>
         </div>
 
         <!-- Kado Interaktif -->
-        <div id="giftBtn" class="gift-box bg-gradient-to-tr from-pink-500 to-rose-400 p-8 sm:p-10 rounded-3xl shadow-2xl relative border-4 border-white/50 flex flex-col items-center justify-center group">
+        <button id="giftBtn" type="button" aria-label="Buka kado ulang tahun" class="gift-box bg-gradient-to-br from-fuchsia-500 via-pink-500 to-orange-400 p-9 sm:p-12 rounded-[2rem] relative border border-white/50 flex flex-col items-center justify-center group">
             <!-- Pita Kado Horizontal & Vertikal -->
             <div class="absolute w-full h-8 bg-yellow-300 top-1/2 -translate-y-1/2 left-0 shadow-sm"></div>
             <div class="absolute h-full w-8 bg-yellow-300 left-1/2 -translate-x-1/2 top-0 shadow-sm"></div>
             <!-- Simpul Pita Atas -->
-            <div class="absolute -top-7 left-1/2 -translate-x-1/2 text-yellow-300 text-6xl group-hover:scale-110 transition-transform">
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 text-yellow-200 text-6xl group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-ribbon"></i>
             </div>
             
-            <i class="fa-solid fa-box-open text-6xl text-white z-10 my-4 drop-shadow-md"></i>
-            <span class="z-10 text-white font-bold text-lg tracking-wide drop-shadow">KLIK UNTUK MEMBUKA</span>
-        </div>
+            <i class="fa-solid fa-gift text-7xl sm:text-8xl text-white z-10 my-5 drop-shadow-md"></i>
+            <span class="z-10 text-white font-bold text-sm sm:text-base tracking-[0.18em] drop-shadow">KLIK UNTUK MEMBUKA</span>
+        </button>
 
-        <p class="mt-6 text-gray-700 font-medium text-sm sm:text-base animate-pulse">
-            Sentuh kado di atas untuk melihat ucapan ✨
+        <p class="mt-7 text-white/80 font-medium text-sm sm:text-base">
+            Ada doa, kenangan, dan sedikit kejutan di dalamnya ✨
         </p>
     </div>
 
     <!-- 2. KONTEN UTAMA UCAPAN ULANG TAHUN -->
-    <div id="mainContent" class="hidden relative z-10 w-full max-w-2xl glass-card rounded-3xl p-6 sm:p-10 text-center animate-float my-6">
+    <main id="mainContent" class="hidden relative z-10 w-full max-w-5xl glass-card rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 lg:p-14 text-center animate-float my-6">
         
         <!-- Controls Top Bar (Music Toggle) -->
         <div class="absolute top-4 right-4 flex items-center space-x-2">
@@ -128,17 +150,18 @@
         </div>
 
         <!-- Header Nama & Foto/Avatar (Opsional) -->
-        <div class="inline-block p-1 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 rounded-full mb-3 shadow-md">
-            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-pink-100 flex items-center justify-center text-3xl sm:text-4xl text-pink-500 overflow-hidden border-2 border-white">
-                <i class="fa-solid fa-cake-candles"></i>
+        <div class="inline-block p-1.5 bg-gradient-to-br from-rose-400 via-fuchsia-500 to-amber-300 rounded-full mb-4 shadow-xl shadow-pink-300/40">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-pink-100 to-amber-100 flex items-center justify-center text-3xl sm:text-4xl text-pink-500 overflow-hidden border-2 border-white">
+                <i class="fa-solid fa-cake-candles" aria-hidden="true"></i>
             </div>
         </div>
 
-        <h2 class="text-sm uppercase tracking-widest text-pink-600 font-bold mb-1">Happy Birthday</h2>
+        <p class="text-xs sm:text-sm uppercase tracking-[0.28em] text-fuchsia-700 font-bold mb-2">Hari spesial untukmu</p>
         <!-- NAMA BISA DIGANTI DI SINI -->
-        <h1 id="personName" class="font-cursive text-4xl sm:text-6xl text-gray-800 font-extrabold mb-4 drop-shadow-sm">
+        <h1 id="personName" class="font-cursive text-5xl sm:text-7xl lg:text-8xl leading-tight text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-700 via-pink-600 to-orange-500 font-bold mb-3 drop-shadow-sm">
             Sahabat Terbaik! ✨
         </h1>
+        <p class="text-sm sm:text-base text-purple-900/65 mb-5">Untuk seseorang yang selalu membuat hari-hari lebih indah</p>
 
         <!-- Teks Ucapan (Typing Effect) -->
         <div class="min-h-[100px] mb-6 flex items-center justify-center px-2">
@@ -148,16 +171,19 @@
         </div>
 
         <!-- Galeri foto kenangan -->
-        <section aria-label="Foto kenangan" class="mb-6">
-            <h3 class="font-cursive text-2xl sm:text-3xl text-pink-600 font-bold mb-3">Kenangan Spesial ✨</h3>
-            <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                <figure class="overflow-hidden rounded-2xl border-4 border-white shadow-lg">
+        <section aria-label="Foto kenangan" class="mb-8 sm:mb-10">
+            <div class="mb-4">
+                <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-fuchsia-600 font-bold mb-1">Momen kecil, kenangan istimewa</p>
+                <h3 class="font-cursive text-3xl sm:text-4xl text-purple-950 font-bold">Kenangan Spesial</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-3 sm:gap-5">
+                <figure class="overflow-hidden rounded-2xl sm:rounded-3xl border-4 border-white shadow-xl shadow-purple-950/10">
                     <img src="oshi1.jpeg" alt="Foto kenangan pertama" loading="lazy"
-                         class="w-full h-52 sm:h-72 object-cover object-center">
+                         class="memory-photo w-full h-52 sm:h-80 object-cover object-center">
                 </figure>
-                <figure class="overflow-hidden rounded-2xl border-4 border-white shadow-lg">
+                <figure class="overflow-hidden rounded-2xl sm:rounded-3xl border-4 border-white shadow-xl shadow-purple-950/10">
                     <img src="oshi2.jpeg" alt="Foto kenangan kedua" loading="lazy"
-                         class="w-full h-52 sm:h-72 object-cover object-center">
+                         class="memory-photo w-full h-52 sm:h-80 object-cover object-center">
                 </figure>
             </div>
         </section>
@@ -206,7 +232,7 @@
                 <i class="fa-solid fa-sparkles text-yellow-500"></i> Sebar Confetti!
             </button>
         </div>
-    </div>
+    </main>
 
     <!-- 3. POPUP MODAL: PESAN RAHASIA / KOTAK HARAPAN -->
     <div id="secretModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
