@@ -67,6 +67,55 @@
             transform: scale(1.045);
         }
 
+        .memory-video-section {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 100% 0%, rgba(232, 121, 185, 0.2), transparent 20rem),
+                linear-gradient(145deg, #24143b, #3c2055 55%, #28204f);
+            box-shadow: 0 24px 55px rgba(44, 25, 70, 0.18);
+        }
+        .memory-video-section::before {
+            position: absolute;
+            z-index: -1;
+            top: -5rem;
+            left: -5rem;
+            width: 14rem;
+            height: 14rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            box-shadow: 0 0 0 2rem rgba(255, 255, 255, 0.025), 0 0 0 4rem rgba(255, 255, 255, 0.02);
+            content: "";
+            pointer-events: none;
+        }
+        .memory-video-card {
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 16px 38px rgba(17, 10, 34, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .memory-video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 46px rgba(17, 10, 34, 0.28);
+        }
+        .memory-video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #171124;
+            object-fit: cover;
+        }
+
+        .countdown-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 239, 248, 0.72));
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 12px 30px rgba(90, 39, 112, 0.08);
+        }
+
+        .timeline-line {
+            background: linear-gradient(to bottom, #e879b9, #a78bfa, #fbbf24);
+        }
+
         #introScreen {
             isolation: isolate;
             position: fixed;
@@ -434,22 +483,114 @@
             </p>
         </div>
 
+        <section aria-labelledby="countdownHeading" class="mb-8 sm:mb-10 rounded-3xl bg-gradient-to-br from-purple-950 via-purple-900 to-fuchsia-900 p-5 sm:p-7 text-white shadow-xl shadow-purple-950/15">
+            <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-pink-200 font-bold mb-1">Tandai harinya</p>
+            <h2 id="countdownHeading" class="font-cursive text-3xl sm:text-4xl font-bold">Menuju Hari Spesial</h2>
+            <p id="countdownDate" class="mt-2 text-xs sm:text-sm text-white/75">19 Oktober · 19.00 WIB</p>
+            <div class="mt-5 grid grid-cols-4 gap-2 sm:gap-4 max-w-xl mx-auto" aria-live="off">
+                <div class="rounded-2xl bg-white/10 px-2 py-3 backdrop-blur">
+                    <span id="countdownDays" class="block text-2xl sm:text-4xl font-bold tabular-nums">--</span>
+                    <span class="text-[10px] sm:text-xs text-white/70">Hari</span>
+                </div>
+                <div class="rounded-2xl bg-white/10 px-2 py-3 backdrop-blur">
+                    <span id="countdownHours" class="block text-2xl sm:text-4xl font-bold tabular-nums">--</span>
+                    <span class="text-[10px] sm:text-xs text-white/70">Jam</span>
+                </div>
+                <div class="rounded-2xl bg-white/10 px-2 py-3 backdrop-blur">
+                    <span id="countdownMinutes" class="block text-2xl sm:text-4xl font-bold tabular-nums">--</span>
+                    <span class="text-[10px] sm:text-xs text-white/70">Menit</span>
+                </div>
+                <div class="rounded-2xl bg-white/10 px-2 py-3 backdrop-blur">
+                    <span id="countdownSeconds" class="block text-2xl sm:text-4xl font-bold tabular-nums">--</span>
+                    <span class="text-[10px] sm:text-xs text-white/70">Detik</span>
+                </div>
+            </div>
+        </section>
+
         <!-- Galeri foto kenangan -->
         <section aria-label="Foto kenangan" class="mb-8 sm:mb-10">
-            <div class="mb-4">
+            <div class="mb-5 sm:mb-6">
                 <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-fuchsia-600 font-bold mb-1">Momen kecil, kenangan istimewa</p>
-                <h3 class="font-cursive text-3xl sm:text-4xl text-purple-950 font-bold">Kenangan Spesial</h3>
+                <h3 class="font-cursive text-4xl sm:text-5xl text-purple-950 font-bold">Kenangan Spesial</h3>
             </div>
-            <div class="grid grid-cols-2 gap-3 sm:gap-5">
-                <figure class="overflow-hidden rounded-2xl sm:rounded-3xl border-4 border-white shadow-xl shadow-purple-950/10">
+            <div class="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:gap-8">
+                <figure class="overflow-hidden rounded-2xl sm:rounded-3xl border-[6px] border-white shadow-2xl shadow-purple-950/15">
                     <img src="oshi1.jpeg" alt="Foto kenangan pertama" loading="lazy"
-                         class="memory-photo w-full h-52 sm:h-80 object-cover object-center">
+                         class="memory-photo block w-full h-[24rem] sm:h-[32rem] lg:h-[38rem] object-cover object-center">
                 </figure>
-                <figure class="overflow-hidden rounded-2xl sm:rounded-3xl border-4 border-white shadow-xl shadow-purple-950/10">
+                <figure class="overflow-hidden rounded-2xl sm:rounded-3xl border-[6px] border-white shadow-2xl shadow-purple-950/15">
                     <img src="oshi2.jpeg" alt="Foto kenangan kedua" loading="lazy"
-                         class="memory-photo w-full h-52 sm:h-80 object-cover object-center">
+                         class="memory-photo block w-full h-[24rem] sm:h-[32rem] lg:h-[38rem] object-cover object-center">
                 </figure>
             </div>
+        </section>
+
+        <section aria-labelledby="memoryVideosHeading" class="memory-video-section mb-8 sm:mb-10 rounded-[1.75rem] sm:rounded-[2rem] p-5 sm:p-8 lg:p-10 text-left">
+            <div class="relative mb-6 sm:mb-8 flex items-center gap-4">
+                <div class="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-2xl text-pink-200 shadow-inner sm:flex" aria-hidden="true">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+                <div>
+                    <p class="mb-1 text-[10px] font-bold uppercase tracking-[0.25em] text-pink-200 sm:text-xs">Cerita yang tumbuh bersama</p>
+                    <h2 id="memoryVideosHeading" class="font-cursive text-3xl font-bold text-white sm:text-4xl">Video Perjalanan</h2>
+                    <p class="mt-2 max-w-xl text-xs leading-relaxed text-white/70 sm:text-sm">Dari kenangan masa kecil hingga momen yang membanggakan—semuanya jadi bagian dari cerita istimewa.</p>
+                </div>
+            </div>
+            <div class="relative grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2">
+                <figure class="memory-video-card overflow-hidden rounded-2xl bg-white p-2 sm:rounded-3xl sm:p-2.5">
+                    <video class="memory-video rounded-xl sm:rounded-2xl" controls playsinline preload="metadata" aria-label="Video perjalanan dari kecil">
+                        <source src="perjalanan%20dari%20kecil.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutaran video.
+                    </video>
+                    <figcaption class="flex items-center gap-3 px-2 pb-2 pt-4 sm:px-3 sm:pb-2.5">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-fuchsia-100 text-sm font-bold text-fuchsia-700">01</span>
+                        <span class="min-w-0">
+                            <span class="block text-[9px] font-bold uppercase tracking-[0.2em] text-fuchsia-600">Sebuah kenangan</span>
+                            <span class="mt-0.5 block text-sm font-bold text-purple-950 sm:text-base">Perjalanan dari Kecil</span>
+                        </span>
+                    </figcaption>
+                </figure>
+                <figure class="memory-video-card overflow-hidden rounded-2xl bg-white p-2 sm:rounded-3xl sm:p-2.5">
+                    <video class="memory-video rounded-xl sm:rounded-2xl" controls playsinline preload="metadata" aria-label="Video Duta Baca">
+                        <source src="duta%20baca.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutaran video.
+                    </video>
+                    <figcaption class="flex items-center gap-3 px-2 pb-2 pt-4 sm:px-3 sm:pb-2.5">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-sm font-bold text-amber-700">02</span>
+                        <span class="min-w-0">
+                            <span class="block text-[9px] font-bold uppercase tracking-[0.2em] text-amber-600">Momen membanggakan</span>
+                            <span class="mt-0.5 block text-sm font-bold text-purple-950 sm:text-base">Duta Baca</span>
+                        </span>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section aria-labelledby="timelineHeading" class="mb-8 sm:mb-10 rounded-3xl bg-white/50 p-5 sm:p-7 text-left">
+            <div class="text-center mb-6">
+                <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-fuchsia-600 font-bold mb-1">Setiap tahun, cerita baru</p>
+                <h2 id="timelineHeading" class="font-cursive text-3xl sm:text-4xl text-purple-950 font-bold">Potongan Perjalanan</h2>
+            </div>
+            <ol class="relative max-w-2xl mx-auto space-y-5 before:content-[''] before:absolute before:left-[0.7rem] before:top-2 before:bottom-2 before:w-1 before:rounded-full timeline-line">
+                <li class="relative pl-10">
+                    <span class="absolute left-0 top-1 flex h-6 w-6 items-center justify-center rounded-full border-4 border-white bg-pink-500 shadow"></span>
+                    <p class="text-xs font-bold uppercase tracking-widest text-fuchsia-600">19 Oktober 2010</p>
+                    <h3 class="mt-1 font-semibold text-purple-950">Awal cerita</h3>
+                    <p class="mt-1 text-sm leading-relaxed text-purple-900/65">Hari istimewa saat seseorang yang berharga hadir di dunia.</p>
+                </li>
+                <li class="relative pl-10">
+                    <span class="absolute left-0 top-1 flex h-6 w-6 items-center justify-center rounded-full border-4 border-white bg-violet-500 shadow"></span>
+                    <p class="text-xs font-bold uppercase tracking-widest text-violet-600">Dari tahun ke tahun</p>
+                    <h3 class="mt-1 font-semibold text-purple-950">Kenangan terus bertambah</h3>
+                    <p class="mt-1 text-sm leading-relaxed text-purple-900/65">Tawa, cerita, dan momen bersama menjadi bagian dari perjalanan yang indah.</p>
+                </li>
+                <li class="relative pl-10">
+                    <span class="absolute left-0 top-1 flex h-6 w-6 items-center justify-center rounded-full border-4 border-white bg-amber-400 shadow"></span>
+                    <p class="text-xs font-bold uppercase tracking-widest text-amber-600">Bab berikutnya</p>
+                    <h3 class="mt-1 font-semibold text-purple-950">Semoga lebih banyak bahagia</h3>
+                    <p class="mt-1 text-sm leading-relaxed text-purple-900/65">Semoga setiap langkah baru dipenuhi kesehatan, keberanian, dan hal-hal baik.</p>
+                </li>
+            </ol>
         </section>
 
         <!-- KUE ULANG TAHUN DIGITAL INTERAKTIF -->
@@ -496,6 +637,71 @@
                 <i class="fa-solid fa-sparkles text-yellow-500"></i> Sebar Confetti!
             </button>
         </div>
+
+        <section aria-labelledby="eventHeading" class="mt-10 sm:mt-12 rounded-3xl border border-fuchsia-100 bg-gradient-to-br from-white/90 to-pink-50/80 p-5 sm:p-8 text-left shadow-sm">
+            <div class="text-center mb-6">
+                <span class="inline-flex w-12 h-12 items-center justify-center rounded-2xl bg-fuchsia-100 text-fuchsia-600 text-xl mb-3">
+                    <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                </span>
+                <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-fuchsia-600 font-bold mb-1">Mari rayakan bersama</p>
+                <h2 id="eventHeading" class="font-cursive text-3xl sm:text-4xl text-purple-950 font-bold">Detail Acara & RSVP</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-3 mb-6">
+                <div class="countdown-card rounded-2xl p-4">
+                    <p class="text-xs font-bold uppercase tracking-wider text-fuchsia-600"><i class="fa-regular fa-clock mr-1"></i> Waktu</p>
+                    <p id="eventDateTime" class="mt-2 font-semibold text-purple-950">19 Oktober · 19.00 WIB</p>
+                </div>
+                <div class="countdown-card rounded-2xl p-4">
+                    <p class="text-xs font-bold uppercase tracking-wider text-fuchsia-600"><i class="fa-solid fa-location-dot mr-1"></i> Lokasi</p>
+                    <a id="eventLocationLink" href="https://www.google.com/maps/place/-4.3540762,119.8959404" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-2 font-semibold text-purple-950 underline decoration-fuchsia-300 underline-offset-4 hover:text-fuchsia-700">
+                        Lihat lokasi di Google Maps <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <form id="rsvpForm" class="rounded-2xl border border-white bg-white/75 p-4 sm:p-6 shadow-sm space-y-4">
+                <h3 class="font-semibold text-purple-950">Konfirmasi kehadiran</h3>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="rsvpName" class="mb-1.5 block text-sm font-semibold text-purple-950">Nama</label>
+                        <input id="rsvpName" name="display_name" type="text" maxlength="40" required autocomplete="name" placeholder="Nama panggilan"
+                               class="w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200">
+                    </div>
+                    <div>
+                        <label for="rsvpAttendance" class="mb-1.5 block text-sm font-semibold text-purple-950">Kehadiran</label>
+                        <select id="rsvpAttendance" name="attendance" required
+                                class="w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm text-gray-800 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200">
+                            <option value="hadir">Saya akan hadir</option>
+                            <option value="berhalangan">Maaf, saya berhalangan</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="rsvpGuestCountField">
+                    <label for="rsvpGuestCount" class="mb-1.5 block text-sm font-semibold text-purple-950">Jumlah tamu (termasuk kamu)</label>
+                    <input id="rsvpGuestCount" name="guest_count" type="number" min="1" max="10" value="1" required
+                           class="w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm text-gray-800 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200 sm:max-w-xs">
+                </div>
+                <div>
+                    <label for="rsvpMessage" class="mb-1.5 block text-sm font-semibold text-purple-950">Pesan (opsional)</label>
+                    <textarea id="rsvpMessage" name="message" rows="2" maxlength="300" placeholder="Tulis pesan singkat..."
+                              class="w-full resize-y rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200"></textarea>
+                </div>
+                <div class="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    <label for="rsvpWebsite">Biarkan kolom ini kosong</label>
+                    <input id="rsvpWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p id="rsvpStatus" role="status" aria-live="polite" class="text-sm text-purple-800/70"></p>
+                    <button id="rsvpSubmit" type="submit"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-pink-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-pink-500/20 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">
+                        <i class="fa-solid fa-check" aria-hidden="true"></i>
+                        <span>Kirim Konfirmasi</span>
+                    </button>
+                </div>
+                <p class="text-xs leading-relaxed text-purple-900/55">Konfirmasi disimpan secara terpisah dari buku tamu. Demi privasi, daftar RSVP tidak ditampilkan kepada pengunjung.</p>
+            </form>
+        </section>
 
         <section aria-labelledby="commentsHeading" class="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-purple-200/80 text-left">
             <div class="text-center mb-6">
@@ -587,6 +793,61 @@
         let candleLit = true;
         const supabaseUrl = "https://kargfptxghbkjxvgwbso.supabase.co";
         const supabasePublishableKey = "sb_publishable_uYolujrNbZKnt1thQnSqCw_CIJuVomW";
+        const birthdayConfig = {
+            birthDate: "2010-10-19",
+            hour: 19,
+            minute: 0,
+            timezoneOffsetHours: 7,
+            locationUrl: "https://www.google.com/maps/place/-4.3540762,119.8959404"
+        };
+
+        function nextBirthdayDate(now = new Date()) {
+            const [, month, day] = birthdayConfig.birthDate.split("-").map(Number);
+            let year = now.getFullYear();
+            let target = new Date(Date.UTC(
+                year,
+                month - 1,
+                day,
+                birthdayConfig.hour - birthdayConfig.timezoneOffsetHours,
+                birthdayConfig.minute
+            ));
+
+            if (target <= now) {
+                year += 1;
+                target = new Date(Date.UTC(
+                    year,
+                    month - 1,
+                    day,
+                    birthdayConfig.hour - birthdayConfig.timezoneOffsetHours,
+                    birthdayConfig.minute
+                ));
+            }
+            return target;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const target = nextBirthdayDate(now);
+            const remainingSeconds = Math.max(0, Math.floor((target - now) / 1000));
+            const dateLabel = new Intl.DateTimeFormat("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "Asia/Jakarta"
+            }).format(target);
+            const timeLabel = `${String(birthdayConfig.hour).padStart(2, "0")}.${String(birthdayConfig.minute).padStart(2, "0")} WIB`;
+
+            document.getElementById("countdownDate").textContent = `${dateLabel} · ${timeLabel}`;
+            document.getElementById("eventDateTime").textContent = `${dateLabel} · ${timeLabel}`;
+            document.getElementById("eventLocationLink").href = birthdayConfig.locationUrl;
+            document.getElementById("countdownDays").textContent = Math.floor(remainingSeconds / 86400);
+            document.getElementById("countdownHours").textContent = String(Math.floor((remainingSeconds % 86400) / 3600)).padStart(2, "0");
+            document.getElementById("countdownMinutes").textContent = String(Math.floor((remainingSeconds % 3600) / 60)).padStart(2, "0");
+            document.getElementById("countdownSeconds").textContent = String(remainingSeconds % 60).padStart(2, "0");
+        }
+
+        updateCountdown();
+        window.setInterval(updateCountdown, 1000);
 
         function typeWriter() {
             if (index < wishMessage.length) {
@@ -728,7 +989,78 @@
         });
 
         /* ============================================================
-           3. ANIMASI KADO & PENYAMBUTAN
+           3. KONFIRMASI KEHADIRAN
+           ============================================================ */
+        const rsvpForm = document.getElementById('rsvpForm');
+        const rsvpStatus = document.getElementById('rsvpStatus');
+        const rsvpSubmit = document.getElementById('rsvpSubmit');
+        const rsvpAttendance = document.getElementById('rsvpAttendance');
+        const rsvpGuestCount = document.getElementById('rsvpGuestCount');
+        const rsvpGuestCountField = document.getElementById('rsvpGuestCountField');
+
+        function updateRsvpFields() {
+            const attending = rsvpAttendance.value === 'hadir';
+            rsvpGuestCountField.classList.toggle('hidden', !attending);
+            rsvpGuestCount.disabled = !attending;
+            rsvpGuestCount.required = attending;
+        }
+
+        rsvpAttendance.addEventListener('change', updateRsvpFields);
+        updateRsvpFields();
+
+        rsvpForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const formData = new FormData(rsvpForm);
+            const displayName = String(formData.get('display_name') || '').trim();
+            const attendance = String(formData.get('attendance') || '');
+            const guestCount = attendance === 'hadir' ? Number(formData.get('guest_count')) : 0;
+            const message = String(formData.get('message') || '').trim();
+
+            if (String(formData.get('website') || '')) {
+                rsvpStatus.textContent = 'Konfirmasi tidak dapat dikirim.';
+                return;
+            }
+            if (!displayName || displayName.length > 40 || !['hadir', 'berhalangan'].includes(attendance)
+                || (attendance === 'hadir' && (!Number.isInteger(guestCount) || guestCount < 1 || guestCount > 10))
+                || message.length > 300) {
+                rsvpStatus.textContent = 'Periksa nama, pilihan kehadiran, jumlah tamu (1–10), dan pesan.';
+                return;
+            }
+
+            rsvpSubmit.disabled = true;
+            rsvpStatus.textContent = 'Menyimpan konfirmasi...';
+            try {
+                const response = await fetch(`${supabaseUrl}/rest/v1/birthday_rsvps`, {
+                    method: 'POST',
+                    headers: {
+                        ...commentHeaders(),
+                        'Content-Type': 'application/json',
+                        Prefer: 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        display_name: displayName,
+                        attendance,
+                        guest_count: guestCount,
+                        message
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error(`Gagal menyimpan RSVP (${response.status}): ${await response.text()}`);
+                }
+
+                rsvpForm.reset();
+                updateRsvpFields();
+                rsvpStatus.textContent = 'Konfirmasi kehadiran berhasil disimpan. Terima kasih! 💖';
+            } catch (error) {
+                console.error('Penyimpanan RSVP gagal:', error);
+                rsvpStatus.textContent = 'Konfirmasi belum terkirim. Pastikan tabel birthday_rsvps Supabase sudah dibuat, lalu coba lagi.';
+            } finally {
+                rsvpSubmit.disabled = false;
+            }
+        });
+
+        /* ============================================================
+           4. ANIMASI KADO & PENYAMBUTAN
            ============================================================ */
         const giftBtn = document.getElementById('giftBtn');
         const openingScreen = document.getElementById('openingScreen');
